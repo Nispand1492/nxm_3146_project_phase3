@@ -11,7 +11,9 @@ namespace :createdb do
         result=json["variables"]
         result.each do |data|
         	puts "Inserting data #{i}"
-        	id = conn['CENSUSDATA'].insert_one(result[data[0]])
+		result[data[0]][:id]=i
+       		id = conn['CENSUSDATA'].insert_one(result[data[0]])
+	#	puts result[data[0]]
         	i = i+1
 		if i==250
 			break;

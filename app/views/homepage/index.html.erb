@@ -9,21 +9,25 @@ $(document).ready(function()
         $("button#butt").click(function()
         {
                 $("#butt").hide();
-                $.get("/result/1", function(data, status)
-                {
-                        var row = $("<tr/>");
-                        $("#tab").append(row);
-                        row.append($("<td>" + data.id + "</td>"));
-                        row.append($("<td>" + data.label + "</td>"));
-                        row.append($("<td>" + data.concept + "</td>"));
-                        row.append($("<td>" + data.predicateType + "</td>"));
-
-                }
-
-                });
-        $("table").show();
+		setTimeout(function()
+		{
+			for(i=1;i<=100;i++)
+			{
+				url = "/result/"+i;
+                		$.get(url, function(data, status)
+                		{       
+                       	 		console.log(data);
+                        		var row = $("<tr/>");
+                        		$("#tab").append(row);
+                        		row.append($("<td>" + data[0].id + "</td>"));
+                       			row.append($("<td>" + data[0].label + "</td>"));
+                        		row.append($("<td>" + data[0].concept + "</td>"));
+                        		row.append($("<td>" + data[0].predicateType + "</td>"));
+				
+               		 	});
+			}},500);
+       	$("table").show();
         });
-
 });
 
 
@@ -44,6 +48,7 @@ $(document).ready(function()
     background-color: #b0e0e6;
 }
 
+
         body
         {
                 background-image: url("http://derekouellette.ca/wp-content/uploads/2014/07/Open-Book-Macro-Wallpaper-Background-760x406.jpg");
@@ -60,7 +65,7 @@ $(document).ready(function()
 <table id="tab" border="1">
         <caption>Census Data 2013</caption>
         <tr>
-		<th>ID</th>
+                <th>ID</th>
                 <th>Label</th>
                 <th>Concept</th>
                 <th>Predicate Type</th>
@@ -69,6 +74,6 @@ $(document).ready(function()
 </div>
 
 </html>
-         
+
 
 
