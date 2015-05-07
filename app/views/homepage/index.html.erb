@@ -4,31 +4,43 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
 $(document).ready(function()
-{
+{	var i = 0;
         $("table").hide();
         $("button#butt").click(function()
         {
+		$("table").show();	
                 $("#butt").hide();
-		setTimeout(function()
-		{
-			for(i=1;i<=100;i++)
+			var cc=setInterval(function(){myTime()},2000 );
+		
+			function myTime()
 			{
+				if(i == 200)
+				{
+					i = 0;
+				}
+				i = parseInt(i)+1; 
 				url = "/result/"+i;
-                		$.get(url, function(data, status)
-                		{       
-                       	 		console.log(data);
-                        		var row = $("<tr/>");
-                        		$("#tab").append(row);
-                        		row.append($("<td>" + data[0].id + "</td>"));
-                       			row.append($("<td>" + data[0].label + "</td>"));
+               			$.get(url, function(data, status)
+               			{       
+					console.log(data);
+					if(i>21)
+					{
+						 $("#tab tr:eq(1)").fadeOut(500,function()
+                                                 {
+                                                        $("#tab tr:eq(1)").remove();
+                                                 });
+					}	
+                        		var row = $("<tr/>").hide();
+        	               		row.append($("<td>" + data[0].id + "</td>"));
+                	       		row.append($("<td>" + data[0].label + "</td>"));
                         		row.append($("<td>" + data[0].concept + "</td>"));
-                        		row.append($("<td>" + data[0].predicateType + "</td>"));
-				
+                   			row.append($("<td>" + data[0].predicateType + "</td>"));
+					$("#tab").append(row);
+					row.fadeIn(500);
                		 	});
-			}},500);
-       	$("table").show();
-        });
+			}					
 });
+})
 
 
 </script>
@@ -51,9 +63,9 @@ $(document).ready(function()
 
         body
         {
-                background-image: url("http://derekouellette.ca/wp-content/uploads/2014/07/Open-Book-Macro-Wallpaper-Background-760x406.jpg");
                 background-size: 1500px 760px;
                 background-repeat: no-repeat;
+		background-color:#BCC6CC;
         }
 
 </style>
@@ -62,18 +74,16 @@ $(document).ready(function()
 <body>
 <div  class="wrapper">
 <button  class="center" id="butt">Click here to get display Census Data</button>
-<table id="tab" border="1">
+<table  id = "tab" border="1">
         <caption>Census Data 2013</caption>
         <tr>
                 <th>ID</th>
-                <th>Label</th>
-                <th>Concept</th>
+                <th width=344px>Label</th>
+                <th width=400px >Concept</th>
                 <th>Predicate Type</th>
       </tr>
 </table>
+
 </div>
 
 </html>
-
-
-
